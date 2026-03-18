@@ -23,7 +23,7 @@ function clearSession() {
 function guardSession() {
   const session = getSession();
   if (!session) {
-    window.location.replace('../pages/login.html');
+    window.location.replace('login.html');
     return null;
   }
   return session;
