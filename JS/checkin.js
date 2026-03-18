@@ -127,7 +127,7 @@ async function handleCheckin(session) {
 
 function handleLogout() {
   clearSession();
-  window.location.replace('../pages/login.html');
+  window.location.replace('login.html');
 }
 
 // ------------------------------------------------------------
