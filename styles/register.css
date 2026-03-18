@@ -1,0 +1,122 @@
+/* --- REGISTER PAGE EXTRAS --- */
+
+/* Select dropdown matching input style */
+select {
+    width: 100%;
+    padding: 22px 28px;
+    border: 2px solid var(--border-color);
+    border-radius: 14px;
+    font-size: 18px;
+    outline: none;
+    background-color: #fafafa;
+    color: #374151;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 20px center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+select:focus {
+    border-color: var(--primary-blue);
+    background-color: #fff;
+    box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.12);
+}
+
+/* Role radio buttons */
+.role-group {
+    display: flex;
+    gap: 16px;
+}
+
+.role-option {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 18px;
+    border: 2px solid var(--border-color);
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    color: #6b7280;
+    background: #fafafa;
+    transition: all 0.2s ease;
+    margin-bottom: 0;
+}
+
+.role-option input[type="radio"] {
+    display: none;
+}
+
+.role-option span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.role-option:has(input:checked) {
+    border-color: var(--primary-blue);
+    background: #eff6ff;
+    color: var(--primary-blue);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.10);
+}
+
+/* Error message */
+.error-msg {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    background: #fef2f2;
+    border: 1.5px solid #fecaca;
+    color: #dc2626;
+    font-size: 15px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    text-align: left;
+}
+
+.error-msg.show {
+    display: flex;
+}
+
+/* Success message */
+.success-msg {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    background: #f0fdf4;
+    border: 1.5px solid #bbf7d0;
+    color: #16a34a;
+    font-size: 15px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    text-align: left;
+}
+
+.success-msg.show {
+    display: flex;
+}
+
+/* Login link at bottom */
+.login-link {
+    font-size: 15px;
+    color: #6b7280;
+    margin-top: 8px;
+}
+
+.login-link a {
+    color: var(--primary-blue);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
