@@ -19,7 +19,7 @@ function getSession() {
 function guardAdmin() {
   const session = getSession();
   if (!session) {
-    window.location.replace('login.html');
+    window.location.replace('index.html');
     return null;
   }
   if (session.role !== 'admin') {
@@ -366,7 +366,7 @@ function switchTab(tab) {
 
 function handleLogout() {
   sessionStorage.removeItem('neuSession');
-  window.location.replace('login.html');
+  window.location.replace('index.html');
 }
 
 // ------------------------------------------------------------
