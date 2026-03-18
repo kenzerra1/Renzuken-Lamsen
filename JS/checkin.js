@@ -23,7 +23,7 @@ function clearSession() {
 function guardSession() {
   const session = getSession();
   if (!session) {
-    window.location.replace('login.html');
+    window.location.replace('index.html');
     return null;
   }
   return session;
@@ -127,7 +127,7 @@ async function handleCheckin(session) {
 
 function handleLogout() {
   clearSession();
-  window.location.replace('login.html');
+  window.location.replace('index.html');
 }
 
 // ------------------------------------------------------------
