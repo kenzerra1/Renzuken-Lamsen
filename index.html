@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEU Library — Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Roboto, sans-serif; }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background:
+                linear-gradient(rgba(10,20,50,0.75), rgba(10,20,50,0.75)),
+                url('https://fastly.4sqi.net/img/general/600x600/43081772_s2dMl8qWJk_mVnchAUNjNA8EiYAn-vbNr_fa2cTt6kc.jpg')
+                center center / cover no-repeat fixed;
+        }
+
+        /* ── CARD ── */
+        .auth-card {
+            background: rgba(13, 22, 58, 0.85);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 22px;
+            width: 100%;
+            max-width: 460px;
+            padding: 38px 42px 32px;
+            box-shadow: 0 28px 64px rgba(0,0,0,0.5);
+        }
+
+        /* ── BRAND ── */
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            margin-bottom: 26px;
+        }
+
+        .brand-logo {
+            width: 46px; height: 46px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .brand-text h1 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.2;
+        }
+
+        .brand-text p {
+            font-size: 10px;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        /* ── TABS ── */
+        .tab-row {
+            display: flex;
+            border-bottom: 1px solid rgba(255,255,255,0.10);
+            margin-bottom: 26px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 11px 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.35);
+            cursor: pointer;
+            position: relative;
+            transition: color 0.2s;
+            letter-spacing: 0.2px;
+        }
+
+        .tab-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -1px; left: 0; right: 0;
+            height: 2px;
+            background: #22c55e;
+            transform: scaleX(0);
+            transition: transform 0.25s;
+            border-radius: 2px;
+        }
+
+        .tab-btn.active { color: #fff; }
+        .tab-btn.active::after { transform: scaleX(1); }
+
+        /* ── PANELS ── */
+        .form-panel { display: none; }
+        .form-panel.active { display: block; }
+
+        .panel-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 3px;
+        }
+
+        .panel-sub {
+            font-size: 13px;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 20px;
+        }
+
+        .panel-sub a {
+            color: #22c55e;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        /* ── FIELDS ── */
+        .field { margin-bottom: 14px; }
+
+        .field label {
+            display: block;
+            font-size: 10.5px;
+            font-weight: 700;
+            letter-spacing: 0.9px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.45);
+            margin-bottom: 6px;
+        }
+
+        .field input,
+        .field select {
+            width: 100%;
+            padding: 12px 14px;
+            background: rgba(255,255,255,0.06);
+            border: 1.5px solid rgba(255,255,255,0.11);
+            border-radius: 10px;
+            font-size: 14px;
+            color: #fff;
+            outline: none;
+            transition: border-color 0.2s, background 0.2s;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .field input::placeholder { color: rgba(255,255,255,0.22); }
+
+        .field input:focus,
+        .field select:focus {
+            border-color: #22c55e;
+            background: rgba(255,255,255,0.10);
+        }
+
+        .field select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.35)' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 13px center;
+            cursor: pointer;
+        }
+
+        .field select option { background: #0d163a; }
+
+        /* password */
+        .pwd-wrap { position: relative; }
+        .pwd-wrap input { padding-right: 52px; }
+
+        .pwd-toggle {
+            position: absolute;
+            right: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.32);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0;
+            letter-spacing: 0.3px;
+            transition: color 0.2s;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .pwd-toggle:hover { color: rgba(255,255,255,0.7); }
+
+        /* two-col row */
+        .field-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        /* ── ROLE PILLS ── */
+        .role-row { display: flex; gap: 10px; }
+
+        .role-pill {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 10px;
+            border: 1.5px solid rgba(255,255,255,0.11);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.35);
+            background: rgba(255,255,255,0.04);
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .role-pill input { display: none; }
+
+        .role-pill:has(input:checked) {
+            border-color: #22c55e;
+            background: rgba(34,197,94,0.11);
+            color: #22c55e;
+        }
+
+        /* ── FORGOT ── */
+        .forgot-row {
+            text-align: right;
+            margin: -6px 0 14px;
+        }
+
+        .forgot-row a {
+            font-size: 12px;
+            color: #22c55e;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* ── SUBMIT ── */
+        .btn-submit {
+            width: 100%;
+            padding: 13px;
+            background: #22c55e;
+            color: #071020;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 4px;
+            transition: background 0.2s, transform 0.1s;
+            letter-spacing: 0.2px;
+        }
+
+        .btn-submit:hover { background: #16a34a; }
+        .btn-submit:active { transform: scale(0.99); }
+        .btn-submit:disabled { opacity: 0.55; cursor: not-allowed; }
+
+        /* ── MESSAGES ── */
+        .msg {
+            display: none;
+            align-items: center;
+            gap: 9px;
+            padding: 10px 13px;
+            border-radius: 9px;
+            font-size: 13px;
+            margin-bottom: 14px;
+            line-height: 1.4;
+        }
+
+        .msg.show { display: flex; }
+
+        .msg.error {
+            background: rgba(239,68,68,0.14);
+            border: 1px solid rgba(239,68,68,0.3);
+            color: #fca5a5;
+        }
+
+        .msg.success {
+            background: rgba(34,197,94,0.12);
+            border: 1px solid rgba(34,197,94,0.28);
+            color: #86efac;
+        }
+
+        /* ── FOOTER ── */
+        .card-note {
+            text-align: center;
+            font-size: 11px;
+            color: rgba(255,255,255,0.2);
+            margin-top: 18px;
+            letter-spacing: 0.2px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="auth-card">
+
+    <!-- Brand -->
+    <div class="brand">
+        <img class="brand-logo"
+             src="https://upload.wikimedia.org/wikipedia/en/thumb/2/2b/New_Era_University_seal.svg/1200px-New_Era_University_seal.svg.png"
+             alt="NEU"
+             onerror="this.style.display='none'">
+        <div class="brand-text">
+            <h1>New Era University</h1>
+            <p>Library</p>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tab-row">
+        <button class="tab-btn active" id="tabLogin">Log In</button>
+        <button class="tab-btn" id="tabRegister">Register</button>
+    </div>
+
+    <!-- ── LOGIN PANEL ── -->
+    <div class="form-panel active" id="loginPanel">
+        <div class="panel-title">Sign in</div>
+        <div class="panel-sub">No account? <a id="goToRegister">Register here</a></div>
+
+        <div id="loginError" class="msg error">
+            <i class="fas fa-exclamation-circle"></i>
+            <span id="loginErrorText"></span>
+        </div>
+
+        <div class="field">
+            <label>Institutional Email</label>
+            <input id="emailInput" type="email" placeholder="jdoe@neu.edu.ph">
+        </div>
+
+        <div class="field">
+            <label>Password</label>
+            <div class="pwd-wrap">
+                <input id="passwordInput" type="password" placeholder="Enter your password">
+                <button type="button" class="pwd-toggle" id="togglePwd">Show</button>
+            </div>
+        </div>
+
+        <div class="forgot-row"><a href="#">Forgot password?</a></div>
+
+        <button class="btn-submit" id="loginBtn">Log In</button>
+    </div>
+
+    <!-- ── REGISTER PANEL ── -->
+    <div class="form-panel" id="registerPanel">
+        <div class="panel-title">Create account</div>
+        <div class="panel-sub">Already have one? <a id="goToLogin">Sign in here</a></div>
+
+        <div id="registerError" class="msg error">
+            <i class="fas fa-exclamation-circle"></i>
+            <span id="registerErrorText"></span>
+        </div>
+        <div id="registerSuccess" class="msg success">
+            <i class="fas fa-check-circle"></i>
+            <span id="registerSuccessText"></span>
+        </div>
+
+        <div class="field">
+            <label>Full Name</label>
+            <input id="nameInput" type="text" placeholder="Enter your full name">
+        </div>
+
+        <div class="field">
+            <label>Institutional Email</label>
+            <input id="regEmailInput" type="email" placeholder="jdoe@neu.edu.ph">
+        </div>
+
+        <div class="field-row">
+            <div class="field">
+                <label>Password</label>
+                <div class="pwd-wrap">
+                    <input id="regPasswordInput" type="password" placeholder="Create password">
+                    <button type="button" class="pwd-toggle" id="toggleRegPwd">Show</button>
+                </div>
+            </div>
+            <div class="field">
+                <label>Confirm Password</label>
+                <div class="pwd-wrap">
+                    <input id="confirmPasswordInput" type="password" placeholder="Confirm password">
+                    <button type="button" class="pwd-toggle" id="toggleConfirmPwd">Show</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="field">
+            <label>College / Department</label>
+            <select id="collegeInput">
+                <option value="" disabled selected>Select your college</option>
+                <option>College of Computer Studies</option>
+                <option>College of Engineering</option>
+                <option>College of Nursing</option>
+                <option>College of Business Administration</option>
+                <option>College of Education</option>
+                <option>College of Architecture</option>
+                <option>College of Arts and Sciences</option>
+                <option>College of Law</option>
+                <option>College of Medicine</option>
+                <option>College of Dentistry</option>
+                <option>College of Pharmacy</option>
+                <option>College of Physical Therapy</option>
+                <option>Graduate School</option>
+                <option>Senior High School</option>
+                <option>Administration / Staff</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Role</label>
+            <div class="role-row">
+                <label class="role-pill">
+                    <input type="radio" name="role" value="Student" checked>
+                    <i class="fas fa-user-graduate"></i> Student
+                </label>
+                <label class="role-pill">
+                    <input type="radio" name="role" value="Employee">
+                    <i class="fas fa-briefcase"></i> Employee
+                </label>
+            </div>
+        </div>
+
+        <button class="btn-submit" id="registerBtn">Create Account</button>
+    </div>
+
+    <p class="card-note">Only @neu.edu.ph institutional emails are accepted</p>
+</div>
+
+<script type="module" src="../JS/login.js"></script>
+</body>
+</html>

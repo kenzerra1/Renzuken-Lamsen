@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEU Library — Check In</title>
+    <link rel="stylesheet" href="../styles/checkin.css">
+    <link rel="stylesheet" href="../styles/modal.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div class="topbar-brand">
+            <img class="topbar-logo"
+                 src="https://upload.wikimedia.org/wikipedia/en/thumb/2/2b/New_Era_University_seal.svg/1200px-New_Era_University_seal.svg.png"
+                 alt="NEU"
+                 onerror="this.style.display='none'">
+            <div class="topbar-text">
+                <h1>NEU Library</h1>
+                <p id="userEmailDisplay">Loading...</p>
+            </div>
+        </div>
+        <button id="logoutBtn" class="btn-logout">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+    </div>
+
+    <!-- PAGE BODY -->
+    <div class="page-body">
+        <div class="checkin-card">
+
+            <div class="card-icon"><i class="fas fa-clipboard-check"></i></div>
+            <div class="card-title">Library Check-In</div>
+            <div class="card-sub">Fill in your visit details to complete check-in</div>
+
+            <div id="checkinError" class="error-msg">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="checkinErrorText"></span>
+            </div>
+
+            <div class="field">
+                <label>Purpose of Visit <span class="required">*</span></label>
+                <select id="purposeSelect">
+                    <option value="" disabled selected>Select your purpose</option>
+                    <option value="Study">Study</option>
+                    <option value="Research">Research</option>
+                    <option value="Borrowing Books">Borrowing Books</option>
+                    <option value="Reading">Reading</option>
+                    <option value="Group Study">Group Study</option>
+                    <option value="Printing">Printing</option>
+                    <option value="Reference Materials">Reference Materials</option>
+                    <option value="Thesis / Dissertation">Thesis / Dissertation</option>
+                    <option value="Online Class">Online Class</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>College / Department <span class="required">*</span></label>
+                <select id="collegeSelect">
+                    <option value="" disabled selected>Select your college</option>
+                    <option>College of Computer Studies</option>
+                    <option>College of Engineering</option>
+                    <option>College of Nursing</option>
+                    <option>College of Business Administration</option>
+                    <option>College of Education</option>
+                    <option>College of Architecture</option>
+                    <option>College of Arts and Sciences</option>
+                    <option>College of Law</option>
+                    <option>College of Medicine</option>
+                    <option>College of Dentistry</option>
+                    <option>College of Pharmacy</option>
+                    <option>College of Physical Therapy</option>
+                    <option>Graduate School</option>
+                    <option>Senior High School</option>
+                    <option>Administration / Staff</option>
+                </select>
+            </div>
+
+            <div class="check-field">
+                <input type="checkbox" id="employeeCheck">
+                <label for="employeeCheck">
+                    <i class="fas fa-briefcase" style="margin-right:6px;color:#22c55e;"></i>
+                    I am an employee (Teacher / Staff)
+                </label>
+            </div>
+
+            <button id="checkinBtn" class="btn-complete">
+                <i class="fas fa-check-circle" style="margin-right:8px;"></i>Complete Check-In
+            </button>
+
+        </div>
+    </div>
+
+    <!-- SUCCESS MODAL -->
+    <div id="successModal" class="modal-overlay" style="display:none;">
+        <div class="modal-box">
+            <div class="modal-icon"><i class="fas fa-check"></i></div>
+            <h3>Welcome to NEU Library!</h3>
+            <p id="successMessage"></p>
+            <button id="modalCloseBtn" class="btn-complete">Done</button>
+        </div>
+    </div>
+
+    <script type="module" src="../JS/checkin.js"></script>
+</body>
+</html>

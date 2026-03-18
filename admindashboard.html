@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEU Library Admin Dashboard</title>
+    <link rel="stylesheet" href="../styles/admindashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+</head>
+<body>
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div class="topbar-left">
+            <div class="topbar-logo">
+                <i class="fas fa-book-open"></i>
+            </div>
+            <div class="topbar-title">
+                <h1>NEU Library Admin</h1>
+                <p id="adminEmailDisplay"></p>
+            </div>
+        </div>
+        <button id="logoutBtn" class="btn-logout">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+    </div>
+
+    <!-- NAV TABS -->
+    <div class="nav-tabs">
+        <button class="nav-tab active" id="tabAnalytics">
+            <i class="fas fa-chart-bar"></i> Analytics Dashboard
+        </button>
+        <button class="nav-tab" id="tabUsers">
+            <i class="fas fa-users"></i> User Management
+        </button>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="content">
+
+        <!-- ── ANALYTICS TAB ── -->
+        <div id="analyticsTab">
+
+            <!-- FILTER CARD -->
+            <div class="filter-card">
+                <div class="filter-card-header">
+                    <h3><i class="fas fa-filter"></i> Filter Visitor Data</h3>
+                    <p>Apply filters to analyze specific visitor segments</p>
+                </div>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label><i class="fas fa-calendar"></i> Date Range</label>
+                        <select id="filterDate">
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="all">All Time</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Purpose of Visit</label>
+                        <select id="filterPurpose">
+                            <option value="">All Purposes</option>
+                            <option value="Study">Study</option>
+                            <option value="Research">Research</option>
+                            <option value="Borrowing Books">Borrowing Books</option>
+                            <option value="Printing">Printing</option>
+                            <option value="Reading">Reading</option>
+                            <option value="Group Study">Group Study</option>
+                            <option value="Reference Materials">Reference Materials</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>College/Department</label>
+                        <select id="filterCollege">
+                            <option value="">All Colleges</option>
+                            <option value="College of Computer Studies">College of Computer Studies</option>
+                            <option value="College of Engineering">College of Engineering</option>
+                            <option value="College of Nursing">College of Nursing</option>
+                            <option value="College of Business Administration">College of Business Administration</option>
+                            <option value="College of Education">College of Education</option>
+                            <option value="College of Architecture">College of Architecture</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>User Type</label>
+                        <select id="filterType">
+                            <option value="">All Users</option>
+                            <option value="Student">Students</option>
+                            <option value="Employee">Employees</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search by name or email...">
+                </div>
+            </div>
+
+            <!-- STAT CARDS -->
+            <div class="stats-row">
+                <div class="stat-card blue">
+                    <div class="stat-card-icon"><i class="fas fa-users"></i></div>
+                    <h4>Total Visitors</h4>
+                    <div class="stat-number" id="statTotal">0</div>
+                    <div class="stat-sub" id="statPeriod">Today</div>
+                </div>
+                <div class="stat-card yellow">
+                    <div class="stat-card-icon"><i class="fas fa-briefcase"></i></div>
+                    <h4>Employees</h4>
+                    <div class="stat-number" id="statEmployees">0</div>
+                    <div class="stat-sub" id="statEmpPct">0% of total visitors</div>
+                </div>
+                <div class="stat-card blue2">
+                    <div class="stat-card-icon"><i class="fas fa-user-graduate"></i></div>
+                    <h4>Students</h4>
+                    <div class="stat-number" id="statStudents">0</div>
+                    <div class="stat-sub" id="statStudPct">0% of total visitors</div>
+                </div>
+            </div>
+
+            <!-- CHARTS ROW -->
+            <div class="charts-row">
+                <div class="chart-card">
+                    <div class="chart-card-header">
+                        <h3><i class="fas fa-chart-bar"></i> Visitors by Purpose</h3>
+                        <p>Breakdown of visitor purposes</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="purposeChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-card-header">
+                        <h3><i class="fas fa-chart-pie"></i> User Type Distribution</h3>
+                        <p>Students vs Employees</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="typeChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card full">
+                    <div class="chart-card-header">
+                        <h3><i class="fas fa-chart-bar"></i> Breakdown by College/Department</h3>
+                        <p>Visitor distribution across different colleges</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="collegeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VISITOR TABLE -->
+            <div class="table-card">
+                <div class="table-card-header">
+                    <h3>Recent Visitor Logs</h3>
+                    <p id="tableCount">Showing 0 visitors</p>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Purpose</th>
+                            <th>College</th>
+                            <th>Type</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="visitorTableBody"></tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <!-- ── USER MANAGEMENT TAB ── -->
+        <div id="usersTab" style="display:none;">
+            <div class="table-card">
+                <div class="table-card-header">
+                    <h3>User Management</h3>
+                    <p>Block or unblock user access to the library system</p>
+                </div>
+                <div class="search-bar" style="margin-bottom: 16px;">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="userSearchInput" placeholder="Search users by name or email...">
+                </div>
+                <div id="userList"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="module" src="../JS/admindashboard.js"></script>
+</body>
+</html>
