@@ -19,11 +19,11 @@ function getSession() {
 function guardAdmin() {
   const session = getSession();
   if (!session) {
-    window.location.replace('../pages/login.html');
+    window.location.replace('login.html');
     return null;
   }
   if (session.role !== 'admin') {
-    window.location.replace('../pages/checkin.html');
+    window.location.replace('checkin.html');
     return null;
   }
   return session;
@@ -209,10 +209,6 @@ function updateCharts(logs) {
   });
 }
 
-// ------------------------------------------------------------
-// VISITOR TABLE
-// ------------------------------------------------------------
-
 function updateTable(logs) {
   const tbody = document.getElementById('visitorTableBody');
   document.getElementById('tableCount').textContent =
@@ -370,7 +366,7 @@ function switchTab(tab) {
 
 function handleLogout() {
   sessionStorage.removeItem('neuSession');
-  window.location.replace('../pages/login.html');
+  window.location.replace('login.html');
 }
 
 // ------------------------------------------------------------
