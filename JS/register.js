@@ -1,12 +1,4 @@
-// ============================================================
-// NEU Library — Register Page JS (Supabase)
-// ============================================================
-
 import { supabase } from './supabase.js';
-
-// ------------------------------------------------------------
-// VALIDATION
-// ------------------------------------------------------------
 
 const NEU_DOMAIN = '@neu.edu.ph';
 
@@ -20,10 +12,6 @@ function validateForm(name, email, password, confirmPassword, college) {
   if (!college)                            return 'Please select your college or department.';
   return null;
 }
-
-// ------------------------------------------------------------
-// UI HELPERS
-// ------------------------------------------------------------
 
 function showError(message) {
   const box  = document.getElementById('registerError');
@@ -55,10 +43,6 @@ function setLoading(isLoading) {
   btn.textContent = isLoading ? 'Creating account...' : 'Create Account';
 }
 
-// ------------------------------------------------------------
-// CORE REGISTER HANDLER
-// ------------------------------------------------------------
-
 async function handleRegister() {
   clearMessages();
 
@@ -69,14 +53,12 @@ async function handleRegister() {
   const college         = document.getElementById('collegeInput').value;
   const role            = document.querySelector('input[name="role"]:checked').value;
 
-  // 1. Validate
   const err = validateForm(name, email, password, confirmPassword, college);
   if (err) { showError(err); return; }
 
   setLoading(true);
 
   try {
-    // 2. Check if email already exists
     const { data: existing } = await supabase
       .from('users')
       .select('email')
@@ -89,21 +71,19 @@ async function handleRegister() {
       return;
     }
 
-    // 3. Insert new user into Supabase
     const { error } = await supabase
       .from('users')
       .insert([{
         name:     name,
         email:    email,
         password: password,
-        role:     'user',      // all self-registered users are regular users
+        role:     'user',      
         college:  college,
-        type:     role,        // Student or Employee
+        type:     role,      
       }]);
 
     if (error) throw error;
 
-    // 4. Show success and redirect to login
     showSuccess('Account created successfully! Redirecting to login...');
 
     setTimeout(() => {
@@ -116,10 +96,6 @@ async function handleRegister() {
     setLoading(false);
   }
 }
-
-// ------------------------------------------------------------
-// PASSWORD TOGGLES
-// ------------------------------------------------------------
 
 function initPasswordToggles() {
   [['togglePwd', 'passwordInput'], ['toggleConfirmPwd', 'confirmPasswordInput']].forEach(([toggleId, inputId]) => {
@@ -137,9 +113,6 @@ function initPasswordToggles() {
   });
 }
 
-// ------------------------------------------------------------
-// INIT
-// ------------------------------------------------------------
 
 document.addEventListener('DOMContentLoaded', () => {
   initPasswordToggles();
@@ -149,7 +122,6 @@ document.addEventListener('DOMContentLoaded', () => {
     registerBtn.addEventListener('click', handleRegister);
   }
 
-  // Clear errors on input
   ['nameInput', 'emailInput', 'passwordInput', 'confirmPasswordInput', 'collegeInput'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.addEventListener('input', clearMessages);
