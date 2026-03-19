@@ -1,8 +1,3 @@
-// ============================================================
-// NEU Library — Supabase Config
-// Import this in every page that needs database access.
-// ============================================================
-
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
 const SUPABASE_URL = 'https://sezyewvxllysfkfnapkg.supabase.co';
