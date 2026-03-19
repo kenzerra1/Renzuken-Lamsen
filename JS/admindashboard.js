@@ -105,7 +105,7 @@ function updateCharts(logs) {
   const pData   = pLabels.map(k => purposeMap[k]);
 
   if (purposeChart) purposeChart.destroy();
-  purposeChart = new Chart(document.getElementById('purposeChart'), {
+  purposeChart = new Chart(('purposeChart'), {
     type: 'bar',
     data: {
       labels: pLabels.length ? pLabels : ['No data'],
@@ -130,7 +130,7 @@ function updateCharts(logs) {
   const employees = logs.filter(l => l.type === 'Employee').length;
 
   if (typeChart) typeChart.destroy();
-  typeChart = new Chart(document.getElementById('typeChart'), {
+  typeChart = new Chart(('typeChart'), {
     type: 'doughnut',
     data: {
       labels: ['Students', 'Employees'],
@@ -156,7 +156,7 @@ function updateCharts(logs) {
   const cData   = cLabels.map(k => collegeMap[k]);
 
   if (collegeChart) collegeChart.destroy();
-  collegeChart = new Chart(document.getElementById('collegeChart'), {
+  collegeChart = new Chart(('collegeChart'), {
     type: 'bar',
     data: {
       labels: cLabels.length ? cLabels : ['No data'],
@@ -180,8 +180,8 @@ function updateCharts(logs) {
 }
 
 function updateTable(logs) {
-  const tbody = document.getElementById('visitorTableBody');
-  document.getElementById('tableCount').textContent =
+  const tbody = ('visitorTableBody');
+  ('tableCount').textContent =
     `Showing ${logs.length} visitor${logs.length !== 1 ? 's' : ''}`;
 
   if (!logs.length) {
@@ -220,10 +220,6 @@ function escHtml(str) {
     .replace(/>/g, '&gt;');
 }
 
-// ------------------------------------------------------------
-// REFRESH DASHBOARD
-// ------------------------------------------------------------
-
 async function refreshDashboard() {
   const logs = await fetchLogs();
   updateStats(logs);
@@ -231,12 +227,8 @@ async function refreshDashboard() {
   updateTable(logs);
 }
 
-// ------------------------------------------------------------
-// USER MANAGEMENT
-// ------------------------------------------------------------
-
 async function loadUsers() {
-  const search = document.getElementById('userSearchInput').value.trim().toLowerCase();
+  const search = ('userSearchInput').value.trim().toLowerCase();
 
   const { data: users, error } = await supabase
     .from('users')
@@ -262,7 +254,7 @@ async function loadUsers() {
 }
 
 function renderUserList(users, blockedEmails) {
-  const list = document.getElementById('userList');
+  const list = ('userList');
 
   if (!users.length) {
     list.innerHTML = `<p style="text-align:center;padding:32px;color:#94a3b8;">No users found.</p>`;
@@ -295,7 +287,6 @@ function renderUserList(users, blockedEmails) {
   }).join('');
 }
 
-// Needs to be on window so inline onclick can reach it
 window.toggleBlock = async function(email, isCurrentlyBlocked) {
   if (isCurrentlyBlocked) {
     await supabase.from('blocked_users').delete().eq('email', email);
@@ -305,14 +296,10 @@ window.toggleBlock = async function(email, isCurrentlyBlocked) {
   loadUsers();
 };
 
-// ------------------------------------------------------------
-// TAB SWITCHING
-// ------------------------------------------------------------
-
 function switchTab(tab) {
-  const analyticsTab = document.getElementById('analyticsTab');
-  const usersTab     = document.getElementById('usersTab');
-  const tabAnalytics = document.getElementById('tabAnalytics');
+  const analyticsTab = ('analyticsTab');
+  const usersTab     = ('usersTab');
+  const tabAnalytics = ('tabAnalytics');
   const tabUsers     = document.getElementById('tabUsers');
 
   if (tab === 'analytics') {
@@ -330,24 +317,17 @@ function switchTab(tab) {
   }
 }
 
-// ------------------------------------------------------------
-// LOGOUT
-// ------------------------------------------------------------
-
 function handleLogout() {
   sessionStorage.removeItem('neuSession');
   window.location.replace('index.html');
 }
-
-// ------------------------------------------------------------
-// INIT
-// ------------------------------------------------------------
 
 document.addEventListener('DOMContentLoaded', () => {
   const session = guardAdmin();
   if (!session) return;
 
   document.getElementById('adminEmailDisplay').textContent = session.email;
+  document.getElementById('adminGreeting').textContent = `Hello, ${session.name}!`;
   document.getElementById('logoutBtn').addEventListener('click', handleLogout);
   document.getElementById('tabAnalytics').addEventListener('click', () => switchTab('analytics'));
   document.getElementById('tabUsers').addEventListener('click',     () => switchTab('users'));
