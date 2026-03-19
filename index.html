@@ -20,7 +20,7 @@
                 center center / cover no-repeat fixed;
         }
 
-        /* ── CARD ── */
+       
         .auth-card {
             background: rgba(13, 22, 58, 0.85);
             backdrop-filter: blur(18px);
@@ -33,7 +33,6 @@
             box-shadow: 0 28px 64px rgba(0,0,0,0.5);
         }
 
-        /* ── BRAND ── */
         .brand {
             display: flex;
             align-items: center;
@@ -64,7 +63,6 @@
             margin-top: 2px;
         }
 
-        /* ── TABS ── */
         .tab-row {
             display: flex;
             border-bottom: 1px solid rgba(255,255,255,0.10);
@@ -99,7 +97,6 @@
         .tab-btn.active { color: #fff; }
         .tab-btn.active::after { transform: scaleX(1); }
 
-        /* ── PANELS ── */
         .form-panel { display: none; }
         .form-panel.active { display: block; }
 
@@ -123,7 +120,6 @@
             text-decoration: none;
         }
 
-        /* ── FIELDS ── */
         .field { margin-bottom: 14px; }
 
         .field label {
@@ -168,7 +164,6 @@
 
         .field select option { background: #0d163a; }
 
-        /* password */
         .pwd-wrap { position: relative; }
         .pwd-wrap input { padding-right: 52px; }
 
@@ -191,14 +186,12 @@
 
         .pwd-toggle:hover { color: rgba(255,255,255,0.7); }
 
-        /* two-col row */
         .field-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
         }
 
-        /* ── ROLE PILLS ── */
         .role-row { display: flex; gap: 10px; }
 
         .role-pill {
@@ -227,7 +220,6 @@
             color: #22c55e;
         }
 
-        /* ── FORGOT ── */
         .forgot-row {
             text-align: right;
             margin: -6px 0 14px;
@@ -240,7 +232,6 @@
             font-weight: 600;
         }
 
-        /* ── SUBMIT ── */
         .btn-submit {
             width: 100%;
             padding: 13px;
@@ -260,7 +251,6 @@
         .btn-submit:active { transform: scale(0.99); }
         .btn-submit:disabled { opacity: 0.55; cursor: not-allowed; }
 
-        /* ── MESSAGES ── */
         .msg {
             display: none;
             align-items: center;
@@ -286,7 +276,6 @@
             color: #86efac;
         }
 
-        /* ── FOOTER ── */
         .card-note {
             text-align: center;
             font-size: 11px;
@@ -300,7 +289,6 @@
 
 <div class="auth-card">
 
-    <!-- Brand -->
     <div class="brand">
         <img class="brand-logo"
              src="https://upload.wikimedia.org/wikipedia/en/thumb/2/2b/New_Era_University_seal.svg/1200px-New_Era_University_seal.svg.png"
@@ -312,13 +300,11 @@
         </div>
     </div>
 
-    <!-- Tabs -->
     <div class="tab-row">
         <button class="tab-btn active" id="tabLogin">Log In</button>
         <button class="tab-btn" id="tabRegister">Register</button>
     </div>
 
-    <!-- ── LOGIN PANEL ── -->
     <div class="form-panel active" id="loginPanel">
         <div class="panel-title">Sign in</div>
         <div class="panel-sub">No account? <a id="goToRegister">Register here</a></div>
@@ -345,7 +331,6 @@
         <button class="btn-submit" id="loginBtn">Log In</button>
     </div>
 
-    <!-- ── REGISTER PANEL ── -->
     <div class="form-panel" id="registerPanel">
         <div class="panel-title">Create account</div>
         <div class="panel-sub">Already have one? <a id="goToLogin">Sign in here</a></div>
