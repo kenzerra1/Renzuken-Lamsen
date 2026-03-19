@@ -51,9 +51,10 @@ function initToggle(btnId, inputId) {
 
 function saveSession(user) {
   sessionStorage.setItem('neuSession', JSON.stringify({
-    email: user.email,
-    name:  user.name,
-    role:  user.role,
+    email:   user.email,
+    name:    user.name,
+    role:    user.role,
+    college: user.college || 'Not specified',
   }));
 }
 
