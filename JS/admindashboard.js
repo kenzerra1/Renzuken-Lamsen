@@ -1,12 +1,4 @@
-// ============================================================
-// NEU Library — Admin Dashboard JS (Supabase)
-// ============================================================
-
 import { supabase } from './supabase.js';
-
-// ------------------------------------------------------------
-// SESSION GUARD — admin only
-// ------------------------------------------------------------
 
 function getSession() {
   try {
@@ -29,17 +21,9 @@ function guardAdmin() {
   return session;
 }
 
-// ------------------------------------------------------------
-// CHART INSTANCES
-// ------------------------------------------------------------
-
 let purposeChart = null;
 let typeChart    = null;
 let collegeChart = null;
-
-// ------------------------------------------------------------
-// DATE FILTER HELPER
-// ------------------------------------------------------------
 
 function getDateRange(filter) {
   const now   = new Date();
@@ -59,10 +43,6 @@ function getDateRange(filter) {
 
   return start.toISOString();
 }
-
-// ------------------------------------------------------------
-// FETCH LOGS FROM SUPABASE
-// ------------------------------------------------------------
 
 async function fetchLogs() {
   const dateFilter    = document.getElementById('filterDate').value;
@@ -99,10 +79,6 @@ async function fetchLogs() {
   return logs;
 }
 
-// ------------------------------------------------------------
-// STAT CARDS
-// ------------------------------------------------------------
-
 function updateStats(logs) {
   const total     = logs.length;
   const employees = logs.filter(l => l.type === 'Employee').length;
@@ -121,12 +97,8 @@ function updateStats(logs) {
     labels[document.getElementById('filterDate').value] || 'Filtered';
 }
 
-// ------------------------------------------------------------
-// CHARTS
-// ------------------------------------------------------------
-
 function updateCharts(logs) {
-  // Purpose
+
   const purposeMap = {};
   logs.forEach(l => { purposeMap[l.purpose] = (purposeMap[l.purpose] || 0) + 1; });
   const pLabels = Object.keys(purposeMap);
@@ -154,7 +126,6 @@ function updateCharts(logs) {
     }
   });
 
-  // Type
   const students  = logs.filter(l => l.type === 'Student').length;
   const employees = logs.filter(l => l.type === 'Employee').length;
 
@@ -176,7 +147,6 @@ function updateCharts(logs) {
     }
   });
 
-  // College
   const collegeMap = {};
   logs.forEach(l => {
     const short = l.college.replace('College of ', '');
