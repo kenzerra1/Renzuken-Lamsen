@@ -1,5 +1,5 @@
 // ============================================================
-// NEU Library — Login + Register JS (Supabase)
+// NEU Library — Login + Register JS (Supabase) - FIXED
 // ============================================================
 
 import { supabase } from './supabase.js';
@@ -53,13 +53,15 @@ function saveSession(user) {
   sessionStorage.setItem('neuSession', JSON.stringify({
     email:   user.email,
     name:    user.name,
-    role:    user.role,
+    role:    user.role || 'user',
     college: user.college || 'Not specified',
   }));
 }
 
 function redirectByRole(role) {
-  if (role === 'admin') {
+  const normalizedRole = (role || '').toLowerCase().trim();
+  
+  if (normalizedRole === 'admin') {
     window.location.href = 'admindashboard.html';
   } else {
     window.location.href = 'checkin.html';
