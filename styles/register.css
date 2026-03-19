@@ -1,6 +1,3 @@
-/* --- REGISTER PAGE EXTRAS --- */
-
-/* Select dropdown matching input style */
 select {
     width: 100%;
     padding: 22px 28px;
@@ -25,7 +22,6 @@ select:focus {
     box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.12);
 }
 
-/* Role radio buttons */
 .role-group {
     display: flex;
     gap: 16px;
@@ -66,7 +62,6 @@ select:focus {
     box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.10);
 }
 
-/* Error message */
 .error-msg {
     display: none;
     align-items: center;
@@ -85,7 +80,6 @@ select:focus {
     display: flex;
 }
 
-/* Success message */
 .success-msg {
     display: none;
     align-items: center;
@@ -104,7 +98,6 @@ select:focus {
     display: flex;
 }
 
-/* Login link at bottom */
 .login-link {
     font-size: 15px;
     color: #6b7280;
