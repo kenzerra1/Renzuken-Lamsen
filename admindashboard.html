@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NEU Library Admin Dashboard</title>
-    <link rel="stylesheet" href="../styles/admindashboard.css">
+    <link rel="stylesheet" href="styles/admindashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 </head>
@@ -13,12 +13,14 @@
     <!-- TOPBAR -->
     <div class="topbar">
         <div class="topbar-left">
-            <div class="topbar-logo">
-                <i class="fas fa-book-open"></i>
-            </div>
+            <img class="topbar-logo"
+                 src="https://upload.wikimedia.org/wikipedia/en/thumb/2/2b/New_Era_University_seal.svg/1200px-New_Era_University_seal.svg.png"
+                 alt="NEU"
+                 onerror="this.style.display='none'">
             <div class="topbar-title">
                 <h1>NEU Library Admin</h1>
                 <p id="adminEmailDisplay"></p>
+                <p id="adminGreeting" style="font-size:12px; color:#22c55e; margin-top:2px; font-weight:600;"></p>
             </div>
         </div>
         <button id="logoutBtn" class="btn-logout">
@@ -69,6 +71,8 @@
                             <option value="Reading">Reading</option>
                             <option value="Group Study">Group Study</option>
                             <option value="Reference Materials">Reference Materials</option>
+                            <option value="Thesis / Dissertation">Thesis / Dissertation</option>
+                            <option value="Online Class">Online Class</option>
                         </select>
                     </div>
                     <div class="filter-group">
@@ -81,6 +85,15 @@
                             <option value="College of Business Administration">College of Business Administration</option>
                             <option value="College of Education">College of Education</option>
                             <option value="College of Architecture">College of Architecture</option>
+                            <option value="College of Arts and Sciences">College of Arts and Sciences</option>
+                            <option value="College of Law">College of Law</option>
+                            <option value="College of Medicine">College of Medicine</option>
+                            <option value="College of Dentistry">College of Dentistry</option>
+                            <option value="College of Pharmacy">College of Pharmacy</option>
+                            <option value="College of Physical Therapy">College of Physical Therapy</option>
+                            <option value="Graduate School">Graduate School</option>
+                            <option value="Senior High School">Senior High School</option>
+                            <option value="Administration / Staff">Administration / Staff</option>
                         </select>
                     </div>
                     <div class="filter-group">
@@ -191,6 +204,6 @@
 
     </div>
 
-    <script type="module" src="../JS/admindashboard.js"></script>
+    <script type="module" src="JS/admindashboard.js"></script>
 </body>
 </html>
