@@ -57,10 +57,10 @@ async function fetchLogs() {
     .order('created_at', { ascending: false });
 
   const since = getDateRange(dateFilter);
-  if (since)          query = query.gte('created_at', since);
-  if (purposeFilter)  query = query.eq('purpose', purposeFilter);
-  if (collegeFilter)  query = query.eq('college', collegeFilter);
-  if (typeFilter)     query = query.eq('type', typeFilter);
+  if (since)         query = query.gte('created_at', since);
+  if (purposeFilter) query = query.eq('purpose', purposeFilter);
+  if (collegeFilter) query = query.eq('college', collegeFilter);
+  if (typeFilter)    query = query.eq('type', typeFilter);
 
   const { data: logs, error } = await query;
 
@@ -98,20 +98,19 @@ function updateStats(logs) {
 }
 
 function updateCharts(logs) {
-
   const purposeMap = {};
   logs.forEach(l => { purposeMap[l.purpose] = (purposeMap[l.purpose] || 0) + 1; });
   const pLabels = Object.keys(purposeMap);
   const pData   = pLabels.map(k => purposeMap[k]);
 
   if (purposeChart) purposeChart.destroy();
-  purposeChart = new Chart(('purposeChart'), {
+  purposeChart = new Chart(document.getElementById('purposeChart'), {
     type: 'bar',
     data: {
       labels: pLabels.length ? pLabels : ['No data'],
       datasets: [{
         data: pData.length ? pData : [0],
-        backgroundColor: '#2563eb',
+        backgroundColor: '#22c55e',
         borderRadius: 6,
         borderSkipped: false,
       }]
@@ -120,8 +119,8 @@ function updateCharts(logs) {
       responsive: true, maintainAspectRatio: false,
       plugins: { legend: { display: false } },
       scales: {
-        y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: '#f1f5f9' } },
-        x: { grid: { display: false } }
+        y: { beginAtZero: true, ticks: { stepSize: 1, color: 'rgba(255,255,255,0.4)' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+        x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.4)' } }
       }
     }
   });
@@ -130,19 +129,24 @@ function updateCharts(logs) {
   const employees = logs.filter(l => l.type === 'Employee').length;
 
   if (typeChart) typeChart.destroy();
-  typeChart = new Chart(('typeChart'), {
+  typeChart = new Chart(document.getElementById('typeChart'), {
     type: 'doughnut',
     data: {
       labels: ['Students', 'Employees'],
       datasets: [{
         data: [students, employees],
-        backgroundColor: ['#2563eb', '#fbbf24'],
+        backgroundColor: ['#22c55e', '#fbbf24'],
         borderWidth: 0,
       }]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { position: 'bottom', labels: { padding: 20, font: { size: 13 } } } },
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { padding: 20, font: { size: 13 }, color: 'rgba(255,255,255,0.6)' }
+        }
+      },
       cutout: '60%'
     }
   });
@@ -156,13 +160,13 @@ function updateCharts(logs) {
   const cData   = cLabels.map(k => collegeMap[k]);
 
   if (collegeChart) collegeChart.destroy();
-  collegeChart = new Chart(('collegeChart'), {
+  collegeChart = new Chart(document.getElementById('collegeChart'), {
     type: 'bar',
     data: {
       labels: cLabels.length ? cLabels : ['No data'],
       datasets: [{
         data: cData.length ? cData : [0],
-        backgroundColor: ['#1e3a8a', '#2563eb', '#60a5fa', '#93c5fd', '#bfdbfe', '#dbeafe'],
+        backgroundColor: ['#22c55e', '#3b82f6', '#fbbf24', '#a78bfa', '#f87171', '#34d399', '#60a5fa'],
         borderRadius: 6,
         borderSkipped: false,
       }]
@@ -172,22 +176,22 @@ function updateCharts(logs) {
       responsive: true, maintainAspectRatio: false,
       plugins: { legend: { display: false } },
       scales: {
-        x: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: '#f1f5f9' } },
-        y: { grid: { display: false } }
+        x: { beginAtZero: true, ticks: { stepSize: 1, color: 'rgba(255,255,255,0.4)' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+        y: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.4)' } }
       }
     }
   });
 }
 
 function updateTable(logs) {
-  const tbody = ('visitorTableBody');
-  ('tableCount').textContent =
+  const tbody = document.getElementById('visitorTableBody');
+  document.getElementById('tableCount').textContent =
     `Showing ${logs.length} visitor${logs.length !== 1 ? 's' : ''}`;
 
   if (!logs.length) {
     tbody.innerHTML = `
       <tr>
-        <td colspan="6" style="text-align:center;padding:32px;color:#94a3b8;">
+        <td colspan="6" style="text-align:center;padding:32px;color:rgba(255,255,255,0.3);">
           <i class="fas fa-inbox" style="font-size:24px;display:block;margin-bottom:8px;"></i>
           No records found
         </td>
@@ -196,9 +200,9 @@ function updateTable(logs) {
   }
 
   tbody.innerHTML = logs.map(l => {
-    const date     = new Date(l.created_at);
-    const timeStr  = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ', ' +
-                     date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    const date    = new Date(l.created_at);
+    const timeStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ', ' +
+                    date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
     const typeBadge = l.type === 'Employee' ? 'badge-employee' : 'badge-student';
 
     return `
@@ -228,7 +232,7 @@ async function refreshDashboard() {
 }
 
 async function loadUsers() {
-  const search = ('userSearchInput').value.trim().toLowerCase();
+  const search = document.getElementById('userSearchInput').value.trim().toLowerCase();
 
   const { data: users, error } = await supabase
     .from('users')
@@ -254,10 +258,10 @@ async function loadUsers() {
 }
 
 function renderUserList(users, blockedEmails) {
-  const list = ('userList');
+  const list = document.getElementById('userList');
 
   if (!users.length) {
-    list.innerHTML = `<p style="text-align:center;padding:32px;color:#94a3b8;">No users found.</p>`;
+    list.innerHTML = `<p style="text-align:center;padding:32px;color:rgba(255,255,255,0.3);">No users found.</p>`;
     return;
   }
 
@@ -297,9 +301,9 @@ window.toggleBlock = async function(email, isCurrentlyBlocked) {
 };
 
 function switchTab(tab) {
-  const analyticsTab = ('analyticsTab');
-  const usersTab     = ('usersTab');
-  const tabAnalytics = ('tabAnalytics');
+  const analyticsTab = document.getElementById('analyticsTab');
+  const usersTab     = document.getElementById('usersTab');
+  const tabAnalytics = document.getElementById('tabAnalytics');
   const tabUsers     = document.getElementById('tabUsers');
 
   if (tab === 'analytics') {
@@ -327,7 +331,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!session) return;
 
   document.getElementById('adminEmailDisplay').textContent = session.email;
-  document.getElementById('adminGreeting').textContent = `Hello, ${session.name}!`;
+  document.getElementById('adminGreeting').textContent     = `Hello, ${session.name}!`;
+
   document.getElementById('logoutBtn').addEventListener('click', handleLogout);
   document.getElementById('tabAnalytics').addEventListener('click', () => switchTab('analytics'));
   document.getElementById('tabUsers').addEventListener('click',     () => switchTab('users'));
