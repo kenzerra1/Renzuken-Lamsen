@@ -1,12 +1,4 @@
-// ============================================================
-// NEU Library — Check-In Page JS (Supabase)
-// ============================================================
-
 import { supabase } from './supabase.js';
-
-// ------------------------------------------------------------
-// SESSION
-// ------------------------------------------------------------
 
 function getSession() {
   try {
@@ -29,28 +21,16 @@ function guardSession() {
   return session;
 }
 
-// ------------------------------------------------------------
-// DISPLAY LOGGED-IN USER
-// ------------------------------------------------------------
-
 function displayUser(session) {
   const emailEl = document.getElementById('userEmailDisplay');
   if (emailEl) emailEl.textContent = session.email;
 }
-
-// ------------------------------------------------------------
-// VALIDATION
-// ------------------------------------------------------------
 
 function validateForm(purpose, college) {
   if (!purpose) return 'Please select a purpose of visit.';
   if (!college) return 'Please select your department or college.';
   return null;
 }
-
-// ------------------------------------------------------------
-// UI HELPERS
-// ------------------------------------------------------------
 
 function showError(message) {
   const box  = document.getElementById('checkinError');
@@ -83,10 +63,6 @@ function resetForm() {
   document.getElementById('collegeSelect').value   = '';
   document.getElementById('employeeCheck').checked = false;
 }
-
-// ------------------------------------------------------------
-// CORE CHECK-IN HANDLER
-// ------------------------------------------------------------
 
 async function handleCheckin(session) {
   clearError();
@@ -121,18 +97,10 @@ async function handleCheckin(session) {
   }
 }
 
-// ------------------------------------------------------------
-// LOGOUT
-// ------------------------------------------------------------
-
 function handleLogout() {
   clearSession();
   window.location.replace('index.html');
 }
-
-// ------------------------------------------------------------
-// INIT
-// ------------------------------------------------------------
 
 document.addEventListener('DOMContentLoaded', () => {
   const session = guardSession();
