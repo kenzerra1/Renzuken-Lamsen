@@ -26,10 +26,12 @@ function displayUser(session) {
   if (emailEl) emailEl.textContent = session.email;
 }
 
-function validateForm(purpose, college) {
-  if (!purpose) return 'Please select a purpose of visit.';
-  if (!college) return 'Please select your department or college.';
-  return null;
+function getLogs() {
+  try {
+    return JSON.parse(localStorage.getItem('neuLogs')) || [];
+  } catch {
+    return [];
+  }
 }
 
 function showError(message) {
@@ -45,11 +47,11 @@ function clearError() {
   if (box) box.classList.remove('show');
 }
 
-function showSuccessModal(session, purpose, college) {
+function showSuccessModal(session, purpose) {
   const modal = document.getElementById('successModal');
   const msg   = document.getElementById('successMessage');
   if (!modal || !msg) return;
-  msg.textContent = `${session.name}, your check-in has been recorded. Purpose: ${purpose} | College: ${college}.`;
+  msg.textContent = `${session.name}, your check-in has been recorded. Purpose: ${purpose}.`;
   modal.style.display = 'flex';
 }
 
@@ -60,7 +62,6 @@ function closeSuccessModal() {
 
 function resetForm() {
   document.getElementById('purposeSelect').value   = '';
-  document.getElementById('collegeSelect').value   = '';
   document.getElementById('employeeCheck').checked = false;
 }
 
@@ -68,28 +69,25 @@ async function handleCheckin(session) {
   clearError();
 
   const purpose    = document.getElementById('purposeSelect').value;
-  const college    = document.getElementById('collegeSelect').value;
   const isEmployee = document.getElementById('employeeCheck').checked;
 
-  const err = validateForm(purpose, college);
-  if (err) { showError(err); return; }
+  if (!purpose) { showError('Please select a purpose of visit.'); return; }
 
   try {
-    // Save check-in record to Supabase
     const { error } = await supabase
       .from('visit_logs')
       .insert([{
         user_email: session.email,
         name:       session.name,
         purpose:    purpose,
-        college:    college,
+        college:    session.college || 'Not specified',
         type:       isEmployee ? 'Employee' : 'Student',
       }]);
 
     if (error) throw error;
 
     resetForm();
-    showSuccessModal(session, purpose, college);
+    showSuccessModal(session, purpose);
 
   } catch (err) {
     console.error('Check-in error:', err);
@@ -108,17 +106,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   displayUser(session);
 
-  const checkinBtn = document.getElementById('checkinBtn');
-  if (checkinBtn) checkinBtn.addEventListener('click', () => handleCheckin(session));
-
-  const modalCloseBtn = document.getElementById('modalCloseBtn');
-  if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeSuccessModal);
-
-  const logoutBtn = document.getElementById('logoutBtn');
-  if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
-
-  ['purposeSelect', 'collegeSelect'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.addEventListener('change', clearError);
-  });
+  document.getElementById('checkinBtn')?.addEventListener('click', () => handleCheckin(session));
+  document.getElementById('modalCloseBtn')?.addEventListener('click', closeSuccessModal);
+  document.getElementById('logoutBtn')?.addEventListener('click', handleLogout);
+  document.getElementById('purposeSelect')?.addEventListener('change', clearError);
 });
