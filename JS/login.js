@@ -21,6 +21,7 @@ function switchTab(tab) {
   }
 }
 
+
 function initToggle(btnId, inputId) {
   const btn   = document.getElementById(btnId);
   const input = document.getElementById(inputId);
@@ -35,19 +36,21 @@ function initToggle(btnId, inputId) {
 
 function saveSession(user) {
   sessionStorage.setItem('neuSession', JSON.stringify({
-    email: user.email,
-    name:  user.name,
-    role:  user.role,
+    email:   user.email,
+    name:    user.name,
+    role:    user.role,
+    college: user.college || 'Not specified',
   }));
 }
 
 function redirectByRole(role) {
   if (role === 'admin') {
-    window.location.href = 'admindashboard.html';
+    window.location.href = '../pages/admindashboard.html';
   } else {
-    window.location.href = 'checkin.html';
+    window.location.href = '../pages/checkin.html';
   }
 }
+
 
 function showLoginError(msg) {
   const box  = document.getElementById('loginError');
@@ -81,6 +84,7 @@ async function handleLogin() {
   setLoginLoading(true);
 
   try {
+ 
     const { data: users, error } = await supabase
       .from('users')
       .select('*')
@@ -97,6 +101,7 @@ async function handleLogin() {
     }
 
     const user = users[0];
+
 
     const { data: blocked } = await supabase
       .from('blocked_users')
@@ -119,6 +124,7 @@ async function handleLogin() {
     setLoginLoading(false);
   }
 }
+
 
 function showRegisterError(msg) {
   const box  = document.getElementById('registerError');
@@ -150,6 +156,7 @@ function setRegisterLoading(isLoading) {
   btn.textContent = isLoading ? 'Creating account...' : 'Create Account';
 }
 
+
 async function handleRegister() {
   clearRegisterMessages();
 
@@ -160,7 +167,7 @@ async function handleRegister() {
   const college         = document.getElementById('collegeInput').value;
   const role            = document.querySelector('input[name="role"]:checked')?.value || 'Student';
 
-  // Validate
+
   if (!name)                              { showRegisterError('Full name is required.'); return; }
   if (!email)                             { showRegisterError('Email is required.'); return; }
   if (!email.endsWith(NEU_DOMAIN))        { showRegisterError(`Only ${NEU_DOMAIN} emails are accepted.`); return; }
@@ -172,6 +179,7 @@ async function handleRegister() {
   setRegisterLoading(true);
 
   try {
+   
     const { data: existing } = await supabase
       .from('users')
       .select('email')
@@ -183,6 +191,7 @@ async function handleRegister() {
       setRegisterLoading(false);
       return;
     }
+
 
     const { error } = await supabase
       .from('users')
@@ -210,20 +219,24 @@ async function handleRegister() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+
   document.getElementById('tabLogin')?.addEventListener('click',    () => switchTab('login'));
   document.getElementById('tabRegister')?.addEventListener('click', () => switchTab('register'));
   document.getElementById('goToRegister')?.addEventListener('click', () => switchTab('register'));
   document.getElementById('goToLogin')?.addEventListener('click',    () => switchTab('login'));
 
+
   initToggle('togglePwd',        'passwordInput');
   initToggle('toggleRegPwd',     'regPasswordInput');
   initToggle('toggleConfirmPwd', 'confirmPasswordInput');
+
 
   document.getElementById('loginBtn')?.addEventListener('click', handleLogin);
   document.getElementById('emailInput')?.addEventListener('keydown',    e => { if (e.key === 'Enter') handleLogin(); });
   document.getElementById('passwordInput')?.addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
   document.getElementById('emailInput')?.addEventListener('input', clearLoginError);
   document.getElementById('passwordInput')?.addEventListener('input', clearLoginError);
+
 
   document.getElementById('registerBtn')?.addEventListener('click', handleRegister);
   ['nameInput','regEmailInput','regPasswordInput','confirmPasswordInput','collegeInput'].forEach(id => {
