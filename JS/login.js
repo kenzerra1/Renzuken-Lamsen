@@ -1,14 +1,6 @@
-// ============================================================
-// NEU Library — Login + Register JS (Supabase)
-// ============================================================
-
 import { supabase } from './supabase.js';
 
 const NEU_DOMAIN = '@neu.edu.ph';
-
-// ------------------------------------------------------------
-// TAB SWITCHING
-// ------------------------------------------------------------
 
 function switchTab(tab) {
   const loginPanel    = document.getElementById('loginPanel');
@@ -29,10 +21,6 @@ function switchTab(tab) {
   }
 }
 
-// ------------------------------------------------------------
-// PASSWORD TOGGLE HELPER
-// ------------------------------------------------------------
-
 function initToggle(btnId, inputId) {
   const btn   = document.getElementById(btnId);
   const input = document.getElementById(inputId);
@@ -44,10 +32,6 @@ function initToggle(btnId, inputId) {
     btn.textContent = isHidden ? 'Hide' : 'Show';
   });
 }
-
-// ------------------------------------------------------------
-// SESSION
-// ------------------------------------------------------------
 
 function saveSession(user) {
   sessionStorage.setItem('neuSession', JSON.stringify({
@@ -64,10 +48,6 @@ function redirectByRole(role) {
     window.location.href = 'checkin.html';
   }
 }
-
-// ------------------------------------------------------------
-// LOGIN UI HELPERS
-// ------------------------------------------------------------
 
 function showLoginError(msg) {
   const box  = document.getElementById('loginError');
@@ -88,10 +68,6 @@ function setLoginLoading(isLoading) {
   btn.textContent = isLoading ? 'Signing in...' : 'Log In';
 }
 
-// ------------------------------------------------------------
-// LOGIN HANDLER
-// ------------------------------------------------------------
-
 async function handleLogin() {
   clearLoginError();
 
@@ -105,7 +81,6 @@ async function handleLogin() {
   setLoginLoading(true);
 
   try {
-    // Find user
     const { data: users, error } = await supabase
       .from('users')
       .select('*')
@@ -123,7 +98,6 @@ async function handleLogin() {
 
     const user = users[0];
 
-    // Check blocked
     const { data: blocked } = await supabase
       .from('blocked_users')
       .select('email')
@@ -145,10 +119,6 @@ async function handleLogin() {
     setLoginLoading(false);
   }
 }
-
-// ------------------------------------------------------------
-// REGISTER UI HELPERS
-// ------------------------------------------------------------
 
 function showRegisterError(msg) {
   const box  = document.getElementById('registerError');
@@ -180,10 +150,6 @@ function setRegisterLoading(isLoading) {
   btn.textContent = isLoading ? 'Creating account...' : 'Create Account';
 }
 
-// ------------------------------------------------------------
-// REGISTER HANDLER
-// ------------------------------------------------------------
-
 async function handleRegister() {
   clearRegisterMessages();
 
@@ -206,7 +172,6 @@ async function handleRegister() {
   setRegisterLoading(true);
 
   try {
-    // Check if email already exists
     const { data: existing } = await supabase
       .from('users')
       .select('email')
@@ -219,7 +184,6 @@ async function handleRegister() {
       return;
     }
 
-    // Insert new user
     const { error } = await supabase
       .from('users')
       .insert([{
@@ -245,30 +209,22 @@ async function handleRegister() {
   }
 }
 
-// ------------------------------------------------------------
-// INIT
-// ------------------------------------------------------------
-
 document.addEventListener('DOMContentLoaded', () => {
-  // Tab buttons
   document.getElementById('tabLogin')?.addEventListener('click',    () => switchTab('login'));
   document.getElementById('tabRegister')?.addEventListener('click', () => switchTab('register'));
   document.getElementById('goToRegister')?.addEventListener('click', () => switchTab('register'));
   document.getElementById('goToLogin')?.addEventListener('click',    () => switchTab('login'));
 
-  // Password toggles
   initToggle('togglePwd',        'passwordInput');
   initToggle('toggleRegPwd',     'regPasswordInput');
   initToggle('toggleConfirmPwd', 'confirmPasswordInput');
 
-  // Login
   document.getElementById('loginBtn')?.addEventListener('click', handleLogin);
   document.getElementById('emailInput')?.addEventListener('keydown',    e => { if (e.key === 'Enter') handleLogin(); });
   document.getElementById('passwordInput')?.addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
   document.getElementById('emailInput')?.addEventListener('input', clearLoginError);
   document.getElementById('passwordInput')?.addEventListener('input', clearLoginError);
 
-  // Register
   document.getElementById('registerBtn')?.addEventListener('click', handleRegister);
   ['nameInput','regEmailInput','regPasswordInput','confirmPasswordInput','collegeInput'].forEach(id => {
     document.getElementById(id)?.addEventListener('input', clearRegisterMessages);
