@@ -60,9 +60,9 @@ function saveSession(user) {
 
 function redirectByRole(role) {
   if (role === 'admin') {
-    window.location.href = '../pages/admindashboard.html';
+    window.location.href = 'admindashboard.html';
   } else {
-    window.location.href = '../pages/checkin.html';
+    window.location.href = 'checkin.html';
   }
 }
 
