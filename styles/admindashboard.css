@@ -1,8 +1,3 @@
-/* ============================================================
-   NEU Library — Admin Dashboard CSS
-   Dark glassmorphism theme matching login & check-in pages
-   ============================================================ */
-
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
@@ -15,7 +10,6 @@ body {
     color: #fff;
 }
 
-/* ── TOPBAR ── */
 .topbar {
     display: flex;
     align-items: center;
@@ -80,7 +74,6 @@ body {
     color: #fca5a5;
 }
 
-/* ── NAV TABS ── */
 .nav-tabs {
     display: flex;
     gap: 4px;
@@ -118,7 +111,6 @@ body {
     border-bottom: none;
 }
 
-/* ── MAIN CONTENT ── */
 .content {
     padding: 28px 36px 48px;
     display: flex;
@@ -126,7 +118,6 @@ body {
     gap: 22px;
 }
 
-/* ── GLASS CARD BASE ── */
 .glass-card {
     background: rgba(13, 22, 58, 0.75);
     backdrop-filter: blur(16px);
@@ -136,7 +127,6 @@ body {
     box-shadow: 0 8px 32px rgba(0,0,0,0.3);
 }
 
-/* ── FILTER CARD ── */
 .filter-card {
     background: rgba(13, 22, 58, 0.75);
     backdrop-filter: blur(16px);
@@ -240,7 +230,6 @@ body {
     background: rgba(255,255,255,0.09);
 }
 
-/* ── STAT CARDS ── */
 .stats-row {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -305,7 +294,6 @@ body {
     color: rgba(255,255,255,0.4);
 }
 
-/* ── CHARTS ── */
 .charts-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -348,7 +336,6 @@ body {
     height: 220px;
 }
 
-/* ── TABLE CARD ── */
 .table-card {
     background: rgba(13, 22, 58, 0.75);
     backdrop-filter: blur(16px);
@@ -422,7 +409,6 @@ tbody td:nth-child(2) {
     font-size: 13px;
 }
 
-/* ── BADGES ── */
 .badge {
     display: inline-block;
     padding: 3px 11px;
@@ -449,7 +435,6 @@ tbody td:nth-child(2) {
     border: 1px solid rgba(251,191,36,0.25);
 }
 
-/* ── USER MANAGEMENT ── */
 .user-row {
     display: flex;
     justify-content: space-between;
@@ -520,7 +505,6 @@ tbody td:nth-child(2) {
     border-color: rgba(239,68,68,0.6);
 }
 
-/* search bar in user management tab */
 .user-search-bar {
     position: relative;
     margin-bottom: 16px;
