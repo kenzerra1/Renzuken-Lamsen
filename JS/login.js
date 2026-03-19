@@ -1,14 +1,6 @@
-// ============================================================
-// NEU Library — Login + Register JS (Supabase)
-// ============================================================
-
 import { supabase } from './supabase.js';
 
 const NEU_DOMAIN = '@neu.edu.ph';
-
-// ------------------------------------------------------------
-// TAB SWITCHING
-// ------------------------------------------------------------
 
 function switchTab(tab) {
   const loginPanel    = document.getElementById('loginPanel');
@@ -29,10 +21,6 @@ function switchTab(tab) {
   }
 }
 
-// ------------------------------------------------------------
-// PASSWORD TOGGLE HELPER
-// ------------------------------------------------------------
-
 function initToggle(btnId, inputId) {
   const btn   = document.getElementById(btnId);
   const input = document.getElementById(inputId);
@@ -45,9 +33,6 @@ function initToggle(btnId, inputId) {
   });
 }
 
-// ------------------------------------------------------------
-// SESSION
-// ------------------------------------------------------------
 
 function saveSession(user) {
   sessionStorage.setItem('neuSession', JSON.stringify({
@@ -60,15 +45,13 @@ function saveSession(user) {
 
 function redirectByRole(role) {
   if (role === 'admin') {
-    window.location.href = '../pages/admindashboard.html';
+    window.location.href = 'admindashboard.html';
   } else {
-    window.location.href = '../pages/checkin.html';
+    window.location.href = 'checkin.html';
   }
 }
 
-// ------------------------------------------------------------
-// LOGIN UI HELPERS
-// ------------------------------------------------------------
+
 
 function showLoginError(msg) {
   const box  = document.getElementById('loginError');
@@ -89,9 +72,7 @@ function setLoginLoading(isLoading) {
   btn.textContent = isLoading ? 'Signing in...' : 'Log In';
 }
 
-// ------------------------------------------------------------
-// LOGIN HANDLER
-// ------------------------------------------------------------
+
 
 async function handleLogin() {
   clearLoginError();
@@ -106,7 +87,7 @@ async function handleLogin() {
   setLoginLoading(true);
 
   try {
-    // Find user
+
     const { data: users, error } = await supabase
       .from('users')
       .select('*')
@@ -124,7 +105,7 @@ async function handleLogin() {
 
     const user = users[0];
 
-    // Check blocked
+
     const { data: blocked } = await supabase
       .from('blocked_users')
       .select('email')
@@ -246,23 +227,19 @@ async function handleRegister() {
   }
 }
 
-// ------------------------------------------------------------
-// INIT
-// ------------------------------------------------------------
-
 document.addEventListener('DOMContentLoaded', () => {
-  // Tab buttons
+
   document.getElementById('tabLogin')?.addEventListener('click',    () => switchTab('login'));
   document.getElementById('tabRegister')?.addEventListener('click', () => switchTab('register'));
   document.getElementById('goToRegister')?.addEventListener('click', () => switchTab('register'));
   document.getElementById('goToLogin')?.addEventListener('click',    () => switchTab('login'));
 
-  // Password toggles
+
   initToggle('togglePwd',        'passwordInput');
   initToggle('toggleRegPwd',     'regPasswordInput');
   initToggle('toggleConfirmPwd', 'confirmPasswordInput');
 
-  // Login
+
   document.getElementById('loginBtn')?.addEventListener('click', handleLogin);
   document.getElementById('emailInput')?.addEventListener('keydown',    e => { if (e.key === 'Enter') handleLogin(); });
   document.getElementById('passwordInput')?.addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
